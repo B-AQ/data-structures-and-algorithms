@@ -12,6 +12,9 @@ Write a function named screenForNames that takes in an array of strings and uses
 
 const screenForNames = (arr) => {
   // Solution code here...
+  let regex = /^((Mr.|Mrs.|Ms.|Dr.|)) [a-zA-z]/g;
+  let newArray = arr.filter(element => regex.test(element));
+  return newArray;
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -24,6 +27,15 @@ For example, ['apple', 'banana', 'MacGyver'] returns ['Apple', 'Banana', 'MacGyv
 
 const toTitleCase = (arr) => {
   // Solution code here...
+  let newArray = arr.map(element => {
+    let upperCase= element[0].toUpperCase();
+    for (let i=1; i < element.length ; i++) {
+      upperCase += element[i];
+    }
+    return upperCase;
+  });
+  return newArray;
+
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -99,6 +111,14 @@ let starWarsData = [{
 
 let biggerThanLuke = (arr) => {
   // Solution code here...
+  let filtering = arr.filter((element) => {
+    if (element.mass > 77) return element;
+  });
+  let newArray = [];
+  filtering.forEach((element) => {
+    newArray.push(element.name);
+  });
+  return newArray.join(' - ');
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -117,6 +137,7 @@ This data could be sorted by name or price.
 
 const sortBy = (property, arr) => {
   // Solution code here...
+  return arr.sort((a,b)=> a[property] >b[property]? 1:-1);
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -133,6 +154,8 @@ https:/missingslash.org returns false because the URL is malformed
 ------------------------------------------------------------------------------------------------ */
 const isSecure = (url) => {
   // Solution code here...
+  return /^https:\/\//.test(url);
+
 };
 
 /* ------------------------------------------------------------------------------------------------
@@ -142,7 +165,7 @@ Write a function named detectTicTacToeWin that accepts a two-dimensional array o
 
 This function should return either true or false to indicate if someone won the game.
 
-Instead of trying to write crazy for loops to automate checking the rows, columns and diagonals consider writing one helper function that accepts three coordinate pairs and checks the values of the array at those locations. For instance helpCheck(row1, col1, row2, col2, row3, col3).
+Instead of trying to write crazy for loops to automate checking the rows, columns and diagonals consider writing one helper function that accepts three coordinate pairs and checks the values of the array at those locations. For instance helpCheck(line1, col1, line2, col2, line3, col3).
 
 Your function does not need to work for boards of any size other than 3x3.
 
@@ -156,6 +179,37 @@ Here is a sample board:
 
 const detectTicTacToeWin = (board) => {
   // Solution code here...
+  function check(line1, line2, line3) {
+    if (line1[0] === line1[1] && line1[1] === line1[2] && line1[2] !== '') {
+      return true;
+    }
+    if (line2[0] === line2[1] && line2[1] === line2[2] && line2[2] !== '') {
+      return true;
+    }
+    if (line3[0] === line3[1] && line3[1] === line3[2] && line3[2] !== '') {
+      return true;
+    }
+
+    if (line1[0] === line2[0] && line2[0] === line3[0] && line3[0] !== '') {
+      return true;
+    }
+    if (line1[1] === line2[1] && line2[1] === line3[1] && line3[1] !== '') {
+      return true;
+    }
+    if (line1[2] === line2[2] && line2[2] === line3[2] && line3[2] !== '') {
+      return true;
+    }
+
+    if (line1[0] === line2[1] && line2[1] === line3[2] && line3[2] !== '') {
+      return true;
+    }
+    if (line1[2] === line2[1] && line2[1] === line3[0] && line3[0] !== '') {
+      return true;
+    }
+    return false;
+  }
+  return check(board[0], board[1], board[2]);
+
 };
 
 /* ------------------------------------------------------------------------------------------------
